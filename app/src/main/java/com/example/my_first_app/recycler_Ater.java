@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.palette.graphics.Palette;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
@@ -42,6 +44,25 @@ public class recycler_Ater extends RecyclerView.Adapter<recycler_Ater.ViewHolder
           holder.i1.setImageResource(a1.get(position).img);
           holder.t1.setText(a1.get(position).group);
           holder.t2.setText(a1.get(position).message);
+
+        Bitmap bit=vectorToBitmap(c1,a1.get(position).img);
+        Palette.from(bit).generate(new Palette.PaletteAsyncListener() {
+            @Override
+            public void onGenerated(@Nullable Palette palette) {
+                int def=Color.WHITE;
+                int dominant=palette.getDominantColor(def);
+                int vibrant =palette.getVibrantColor(def);
+                GradientDrawable grd = (GradientDrawable) ContextCompat.getDrawable(c1, R.drawable.whatsapp_image_background);
+                if(grd!=null) {
+                    grd.setColor(dominant);
+                    holder.i1.setBackground(grd);
+                }
+
+
+            }
+        });
+
+
           holder.i1.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
@@ -73,6 +94,8 @@ public class recycler_Ater extends RecyclerView.Adapter<recycler_Ater.ViewHolder
                               int lightMuted = palette.getLightMutedColor(def);
                               int darkMuted = palette.getDarkMutedColor(def);
                               llay1.setBackgroundColor(dominant);
+
+
                           }
                       });
                   }
@@ -127,7 +150,11 @@ public class recycler_Ater extends RecyclerView.Adapter<recycler_Ater.ViewHolder
 
         return null;
     }
+
+
     }
+
+
 
 
 

@@ -45,8 +45,14 @@ public class Contacts_Details extends AppCompatActivity {
         arr.add(new struct(R.drawable.second,"Ramu Bhaiya","Bhaiya ek kaam kardo mere College ka"));
         arr.add(new struct(R.drawable.third,"Shubham Bhaiya","Bhaiya wo samaan chahiye mujhe kab doge"));
         arr.add(new struct(R.drawable.frame__4_,"Badi Mosi","Mosi aaj ke liye Khana Bana lena mera"));
-        arr.add(new struct(R.drawable.frame__5_,"Police Uncle","A crime has happened but you nicely caught the Culprit..."));
-        arr.add(new struct(R.drawable.frame__6_,"Annu Aunty","Jai Jinendra Aunty...."));
+        arr.add(new struct(R.drawable.frame__5_,"Police Uncle","A crime has happened but you nicely caught the Culprit"));
+        arr.add(new struct(R.drawable.frame__6_,"Annu Aunty","Jai Jinendra Aunty."));
+        arr.add(new struct(R.drawable.child,"Aeshna","Hi Aishna How are You"));
+        arr.add(new struct(R.drawable.brother,"Aagam Bhaiya","Bhaiya mere ek project banwa do na,Please"));
+        arr.add(new struct(R.drawable.sister,"Nishtha Didi","Didi Kab jaa rhi ho Mandir Aap"));
+        arr.add(new struct(R.drawable.father,"Papa","Papa mere liye ye pen liyana"));
+        arr.add(new struct(R.drawable.mother,"Mummy","Mummy Mai is Sunday ko Aaunga"));
+        arr.add(new struct(R.drawable.family,"Family Group","Sab ek baar saare Photos bhej do"));
         RecyclerView r1=findViewById(R.id.recycler_view);
         r1.setLayoutManager(new LinearLayoutManager(Contacts_Details.this));
        recycler_Ater a1=new recycler_Ater(arr,Contacts_Details.this);
@@ -60,6 +66,10 @@ public class Contacts_Details extends AppCompatActivity {
         Toolbar t1=findViewById(toolbar);
         setSupportActionBar(t1);
         getSupportActionBar().setTitle("");
+
+
+
+
 
 //        ImageView img1=findViewById(R.id.smoo);
 //        img1.setOnClickListener(new View.OnClickListener() {

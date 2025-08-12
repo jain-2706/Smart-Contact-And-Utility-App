@@ -14,30 +14,87 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
+
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.material.navigation.NavigationView;
 
 public class Opening_Activity extends AppCompatActivity {
     private final String notification_id="1";
-
+    DrawerLayout dlay;
+    NavigationView nview;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_opening);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main_s), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
         channel();
         create_notification();
+
+        Toolbar tbar=(Toolbar)findViewById(R.id.tool);
+        setSupportActionBar(tbar);
+        if(getSupportActionBar()!=null)
+        {
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setTitle("App_Services");
+
+
+
+        }
+        dlay=findViewById(R.id.main_s);
+        nview=findViewById(R.id.nview);
+        ActionBarDrawerToggle tg=new ActionBarDrawerToggle(Opening_Activity.this,dlay,tbar,R.string.Open_Drawer,R.string.Close_Drawer);
+        dlay.addDrawerListener(tg);
+        tg.syncState();
+        nview.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id=item.getItemId();
+                if(id==R.id.face)
+                {
+                    loadfragment(new Facebook_Fragment(),0);
+                }
+                else if(id==R.id.google)
+                {
+                    loadfragment(new Google_Fragment(),0);
+                }
+                else if(id==R.id.insta)
+                {
+                    loadfragment(new Instagram_Fragment(),0);
+                }
+                else if(id==R.id.twitter)
+                {
+                    loadfragment(new Twitter_Fragment(),0);
+                }
+                else
+                {
+                    Intent ins=new Intent(Opening_Activity.this,MainActivity2.class);
+                    startActivity(ins);
+                }
+                return true;
+            }
+        });
 
     }
     public void channel()
@@ -87,9 +144,29 @@ public class Opening_Activity extends AppCompatActivity {
         return b1;
     }
 
-
-
-
-
+    @Override
+    public void onBackPressed() {
+        if(dlay.isDrawerOpen(nview))
+        {
+            dlay.closeDrawers();
+        }
+        else {
+            super.onBackPressed();
+        }
+    }
+    public void loadfragment(Fragment A, int f)
+    {
+        FragmentManager f1=getSupportFragmentManager();
+        FragmentTransaction ft=f1.beginTransaction();
+        if(f==1)
+        {
+            ft.add(R.id.frame,A);
+        }
+        else
+        {
+            ft.replace(R.id.frame,A);
+        }
+        ft.commit();
+    }
 
 }

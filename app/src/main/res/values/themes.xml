@@ -2,4 +2,7 @@
 <resources>
 
     <style name="Theme.My_First_App" parent="Theme.AppCompat.Light.NoActionBar" />
+
+
 </resources>
+
