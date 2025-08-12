@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Contacts_Details"
+    android:orientation="vertical">
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar"
+        android:elevation="4dp">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:ignore="UselessLeaf"
+        android:paddingTop="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="WhatsApp"
+            android:textColor="#0FC169"
+            android:textSize="35sp"
+            android:textStyle="bold"/>
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/frame__8_"
+            android:layout_marginStart="40dp"
+            android:id="@+id/qr"/>
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/frame__9_"
+            android:layout_marginStart="37dp"/>
+</LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+    <LinearLayout
+        android:layout_height="50dp"
+        android:layout_width="320dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="40dp"
+        android:elevation="8dp"
+        android:background="@drawable/round"
+        android:layout_marginStart="40dp"
+        android:padding="3dp">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/frame__7_"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp" />
+    <AutoCompleteTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/autoComplete"
+        tools:ignore="LabelFor"
+        android:hint="Ask Meta AI or Search"
+        android:layout_marginStart="25dp" />
+    </LinearLayout>
+   <androidx.recyclerview.widget.RecyclerView
+       android:layout_width="wrap_content"
+       android:layout_height="0dp"
+       android:id="@+id/recycler_view"
+       android:layout_marginTop="20dp"
+       android:layout_weight="1"/>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bottom"
+        android:background="#42A5F5"
+        app:menu="@menu/bottom_menu"
+
+        >
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+
+
+</LinearLayout>

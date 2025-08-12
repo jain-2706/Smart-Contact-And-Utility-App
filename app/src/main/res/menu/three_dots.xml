@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:title="New group"
+        android:id="@+id/new_group">
+    </item>
+    <item
+        android:title="New community"
+        android:id="@+id/new_community">>
+    </item>
+
+    <item
+        android:title="New broadcast"
+        android:id="@+id/new_broadcast">>
+    </item>
+
+    <item
+        android:title="Linked devices"
+        android:id="@+id/linked_devices">
+    </item>
+
+    <item
+        android:title="Starred"
+        android:id="@+id/starred">>
+    </item>
+
+    <item
+        android:title="Payments"
+        android:id="@+id/payments">>
+    </item>
+
+    <item
+        android:title="Read All"
+        android:id="@+id/read_all">>
+    </item>
+    <item
+        android:title="Settings"
+        android:id="@+id/settings">>
+    </item>
+
+
+</menu>
