@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:title="Maps"
         android:id="@+id/maps_google"
         android:icon="@drawable/group__1_">
-
-
     </item>
+    <item
+        android:title="Call"
+        android:icon="@drawable/call"
 
+        android:id="@+id/call_user"/>
+    <item
+        android:title="E-Mail"
+        android:icon="@drawable/email"
+        android:id="@+id/email"
+       />
+    <item
+        android:icon="@drawable/share"
+        android:title="Share"
+        android:id="@+id/share"
+       />
 </menu>

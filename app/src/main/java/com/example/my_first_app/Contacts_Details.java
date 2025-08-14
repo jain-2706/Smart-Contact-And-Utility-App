@@ -2,15 +2,22 @@ package com.example.my_first_app;
 
 import static com.example.my_first_app.R.id.toolbar;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
@@ -30,6 +37,7 @@ import java.util.ArrayList;
 public class Contacts_Details extends AppCompatActivity {
 
     @Override
+    @SuppressLint("MissingInflatedId")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
@@ -65,10 +73,14 @@ public class Contacts_Details extends AppCompatActivity {
         ws.setThreshold(1);
         Toolbar t1=findViewById(toolbar);
         setSupportActionBar(t1);
-        getSupportActionBar().setTitle("");
-
-
-
+       ImageView image_of_camera=(ImageView)findViewById(R.id.camera);
+       image_of_camera.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Intent in_cam=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+               startActivityForResult(in_cam,100);
+           }
+       });
 
 
 //        ImageView img1=findViewById(R.id.smoo);
@@ -80,6 +92,7 @@ public class Contacts_Details extends AppCompatActivity {
 //            }
 //        });
         BottomNavigationView bot=findViewById(R.id.bottom);
+
         bot.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -88,6 +101,27 @@ public class Contacts_Details extends AppCompatActivity {
                  {
                      Intent intent=new Intent(Contacts_Details.this,MapsActivity.class);
                      startActivity(intent);
+                 }
+                 else if(id==R.id.call_user)
+                 {
+                     Intent in=new Intent(Intent.ACTION_DIAL);
+//                     in.setData(Uri.parse("tel:+91999299929"));
+                     startActivity(in);
+                 }
+                 else if(id==R.id.email)
+                 {
+                     Intent in=new Intent(Intent.ACTION_SEND);
+                     in.setType("message/rfc822");
+                     in.putExtra(Intent.EXTRA_EMAIL,new String[]{"abc@gmail.com","xyz@gmail.com"});
+                     in.putExtra(Intent.EXTRA_SUBJECT,"Internship From Google:  ");
+                     in.putExtra(Intent.EXTRA_TEXT,"An Excitng Offer from Google for the students");
+                     startActivity(Intent.createChooser(in,"Read the Email"));
+                 }
+                 else {
+                     Intent in=new Intent(Intent.ACTION_SEND);
+                     in.setType("text/plain");
+                     in.putExtra(Intent.EXTRA_TEXT,"Share this message with your friends");
+                     startActivity(Intent.createChooser(in,"Share message"));
                  }
                 return true;
             }
@@ -101,5 +135,20 @@ public class Contacts_Details extends AppCompatActivity {
         return true;
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(resultCode==RESULT_OK)
+        {
+            if(requestCode==100)
+            {
+                Intent s=new Intent(Intent.ACTION_SEND);
+                Bitmap bit= (Bitmap) data.getExtras().get("data");
+                String path=MediaStore.Images.Media.insertImage(getContentResolver(),bit,"Image",null);
+                s.setType("image/*");
+                s.putExtra(Intent.EXTRA_STREAM,Uri.parse(path));
+                startActivity(Intent.createChooser(s,"Sharing this Image"));
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

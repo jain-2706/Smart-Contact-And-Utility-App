@@ -18,7 +18,7 @@
         app:headerLayout="@layout/header_layout_of_navigation_bar"
         app:menu="@menu/app_options"
         android:id="@+id/nview"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
        />
 
 </androidx.drawerlayout.widget.DrawerLayout>

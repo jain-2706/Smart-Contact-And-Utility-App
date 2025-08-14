@@ -36,7 +36,8 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:src="@drawable/frame__9_"
-            android:layout_marginStart="22dp"/>
+            android:layout_marginStart="22dp"
+            android:id="@+id/camera"/>
 </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
     <LinearLayout
@@ -71,13 +72,14 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:id="@+id/bottom"
-        android:layout_gravity="center_vertical"
         app:menu="@menu/bottom_menu"
-        android:background="#2196F3"
+        android:background="#9C27B0"
         app:labelVisibilityMode="labeled"
-        app:itemIconSize="30dp"
+        app:itemIconTint="@null"
+
+
         >
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 </LinearLayout>
