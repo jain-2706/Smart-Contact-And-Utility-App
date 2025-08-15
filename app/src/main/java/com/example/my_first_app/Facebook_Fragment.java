@@ -67,4 +67,6 @@ public class Facebook_Fragment extends Fragment {
         web_v.getSettings().setJavaScriptEnabled(true);
         web_v.setWebViewClient(new WebViewClient());
         return v;    }
+
+
 }

@@ -32,6 +32,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAgwAdWPGLcHHCwHw0ZC6P7DpnMER9EfQA" />
+
         <activity
             android:name=".MapsActivity"
             android:exported="false"
@@ -47,6 +48,10 @@
             android:exported="false" />
         <activity
             android:name=".Opening_Activity"
+            android:exported="false" />
+        <activity
+
+            android:name=".user_credentials"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.My_First_App">
