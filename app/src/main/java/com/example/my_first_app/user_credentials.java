@@ -2,6 +2,7 @@ package com.example.my_first_app;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -87,12 +88,18 @@ public class user_credentials extends AppCompatActivity {
                     if(f==1)
                     {
                         t1.setText("You Successfully Logged In 🎉🎉😍😍");
+                        SharedPreferences s1=getSharedPreferences("login",MODE_PRIVATE);
+                        SharedPreferences.Editor s2=s1.edit();
+                        s2.putBoolean("flag",true);
+                        s2.apply();
+
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 Intent is = new Intent(user_credentials.this, Opening_Activity.class);
                                 startActivity(is);
                             } },3000);
+
                     }
                     else
                     {
