@@ -92,7 +92,6 @@ public class user_credentials extends AppCompatActivity {
                         SharedPreferences.Editor s2=s1.edit();
                         s2.putBoolean("flag",true);
                         s2.apply();
-
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {

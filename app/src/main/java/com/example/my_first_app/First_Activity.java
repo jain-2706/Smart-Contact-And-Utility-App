@@ -1,6 +1,7 @@
 package com.example.my_first_app;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -22,12 +23,21 @@ public class First_Activity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        SharedPreferences s1=getSharedPreferences("login",MODE_PRIVATE);
+        s1.getBoolean("flag",false);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent in=new Intent(First_Activity.this,user_credentials.class);
-                startActivity(in);
+                if(!s1.getBoolean("flag", false)) {
+                    Intent in = new Intent(First_Activity.this, user_credentials.class);
+                    startActivity(in);
+                }
+                else
+                {
+                    Intent in = new Intent(First_Activity.this, Opening_Activity.class);
+                    startActivity(in);
+                }
             }
-        },7000);
+        },3000);
     }
 }
