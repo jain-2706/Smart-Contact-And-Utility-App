@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My_First_App</string>
+    <string name="app_name">All in One</string>
     <string name="title_activity_maps">MapsActivity</string>
     <string name="Open_Drawer">Open Navigation Drawer</string>
     <string name="Close_Drawer">Close Navigation Drawer</string>
