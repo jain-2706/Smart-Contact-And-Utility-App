@@ -56,12 +56,12 @@ public class Opening_Activity extends AppCompatActivity {
         create_notification();
 
         Toolbar tbar=(Toolbar)findViewById(R.id.tool);
-        setSupportActionBar(tbar);
-        if(getSupportActionBar()!=null)
-        {
-
-            getSupportActionBar().setTitle("App_Services");
-        }
+//        setSupportActionBar(tbar);
+//        if(getSupportActionBar()!=null)
+//        {
+//
+//            getSupportActionBar().setTitle("App_Services");
+//        }
         Button bta=findViewById(R.id.logout);
         bta.setOnClickListener(new View.OnClickListener() {
             @Override

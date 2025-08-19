@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/face"
+        android:title="Facebook"
+        android:icon="@drawable/facebook"/>
+    <item
+        android:id="@+id/whatsapp"
+        android:title="WhatsApp"
+        android:icon="@drawable/frame__3_"/>
+    <item
+        android:id="@+id/google"
+        android:title="Google"
+        android:icon="@drawable/google"/>
+    <item
+        android:id="@+id/insta"
+        android:title="Instagram"
+        android:icon="@drawable/insta"/>
+    <item
+        android:id="@+id/twitter"
+        android:title="Twitter"
+        android:icon="@drawable/twitter"/>
+
+
+</menu>

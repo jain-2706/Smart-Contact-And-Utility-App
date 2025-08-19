@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/tool"
+        android:layout_marginTop="30dp"
+      >
+    </androidx.appcompat.widget.Toolbar>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="App Services"
+            android:textSize="35sp"
+            android:layout_gravity="bottom"
+
+            android:layout_marginStart="40sp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:layout_gravity="end|bottom"
+            android:text="Logout"
+            android:background="#8E24AA"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#fff"
+            android:id="@+id/logout"
+          />
+    </FrameLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/frame">
+<com.airbnb.lottie.LottieAnimationView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:lottie_rawRes="@raw/animation"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:lottie_autoPlay="true"
+    app:lottie_loop="true"/>
+<!--    android:background="#FB8C00"/>-->
+
+
+    </FrameLayout>
+
+
+
+</LinearLayout>
