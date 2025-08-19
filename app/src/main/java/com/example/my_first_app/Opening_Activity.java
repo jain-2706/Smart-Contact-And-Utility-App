@@ -9,12 +9,15 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 
 import androidx.activity.EdgeToEdge;
@@ -56,12 +59,21 @@ public class Opening_Activity extends AppCompatActivity {
         setSupportActionBar(tbar);
         if(getSupportActionBar()!=null)
         {
-            getSupportActionBar().setHomeButtonEnabled(true);
+
             getSupportActionBar().setTitle("App_Services");
-
-
-
         }
+        Button bta=findViewById(R.id.logout);
+        bta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences s1=getSharedPreferences("login",MODE_PRIVATE);
+                SharedPreferences.Editor se=s1.edit();
+                se.putBoolean("flag",false);
+                se.apply();
+                Intent ic=new Intent(Opening_Activity.this,First_Activity.class);
+                startActivity(ic);
+            }
+        });
         dlay=findViewById(R.id.main_s);
         nview=findViewById(R.id.nview);
         ActionBarDrawerToggle tg=new ActionBarDrawerToggle(Opening_Activity.this,dlay,tbar,R.string.Open_Drawer,R.string.Close_Drawer);
@@ -150,9 +162,8 @@ public class Opening_Activity extends AppCompatActivity {
         {
             dlay.closeDrawers();
         }
-        else {
-            super.onBackPressed();
-        }
+        Intent il=new Intent(Opening_Activity.this, First_Activity.class);
+        startActivity(il);
     }
     public void loadfragment(Fragment A, int f)
     {
@@ -166,6 +177,7 @@ public class Opening_Activity extends AppCompatActivity {
         {
             ft.replace(R.id.frame,A);
         }
+        setSupportActionBar(null);
         ft.commit();
     }
 

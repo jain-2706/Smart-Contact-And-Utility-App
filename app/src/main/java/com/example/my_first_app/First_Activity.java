@@ -38,6 +38,6 @@ public class First_Activity extends AppCompatActivity {
                     startActivity(in);
                 }
             }
-        },3000);
+        },1500);
     }
 }
