@@ -8,6 +8,8 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +21,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -48,7 +51,7 @@ public class Contacts_Details extends AppCompatActivity {
             return insets;
         });
         ArrayList<struct>arr=new ArrayList<struct>();
-        AutoCompleteTextView a2=new AutoCompleteTextView(Contacts_Details.this);
+
         arr.add(new struct(R.drawable.first,"My Number","This has to Bring"));
         arr.add(new struct(R.drawable.second,"Ramu Bhaiya","Bhaiya ek kaam kardo mere College ka"));
         arr.add(new struct(R.drawable.third,"Shubham Bhaiya","Bhaiya wo samaan chahiye mujhe kab doge"));
@@ -64,13 +67,29 @@ public class Contacts_Details extends AppCompatActivity {
         RecyclerView r1=findViewById(R.id.recycler_view);
         r1.setLayoutManager(new LinearLayoutManager(Contacts_Details.this));
        recycler_Ater a1=new recycler_Ater(arr,Contacts_Details.this);
-        AutoCompleteTextView ar2=new AutoCompleteTextView(Contacts_Details.this);
         r1.setAdapter(a1);
-        String[] suggest={"My Number","Ramu Bhaiya","Shubham Bhaiya","Badi Mosi","Police Uncle","Annu Aunty"};
         AutoCompleteTextView ws=findViewById(R.id.autoComplete);
-        ArrayAdapter<String>adapter=new ArrayAdapter<>(Contacts_Details.this,android.R.layout.simple_list_item_1,suggest);
+        ArrayAdapter<String>adapter=new ArrayAdapter<>(Contacts_Details.this,android.R.layout.simple_list_item_1,new ArrayList<>());
         ws.setAdapter(adapter);
-        ws.setThreshold(1);
+
+
+
+        ws.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                a1.filt(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         Toolbar t1=findViewById(toolbar);
         setSupportActionBar(t1);
        ImageView image_of_camera=(ImageView)findViewById(R.id.camera);
@@ -81,6 +100,26 @@ public class Contacts_Details extends AppCompatActivity {
                startActivityForResult(in_cam,100);
            }
        });
+
+
+
+
+
+
+       //If I want to set it the search bar
+//       ws.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//           @Override
+//           public boolean onQueryTextSubmit(String query) {
+//               a1.filt(query);
+//               return true;
+//           }
+//
+//           @Override
+//           public boolean onQueryTextChange(String newText) {
+//               a1.filt(newText);
+//               return true;
+//           }
+//       });
 
 
 //        ImageView img1=findViewById(R.id.smoo);

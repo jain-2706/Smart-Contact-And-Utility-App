@@ -17,7 +17,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,12 +25,13 @@ import androidx.palette.graphics.Palette;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 public class recycler_Ater extends RecyclerView.Adapter<recycler_Ater.ViewHolder>{
-    ArrayList<struct>a1;
+    ArrayList<struct>a1,fllist;
      Context c1;
     public recycler_Ater(ArrayList<struct>a1,Context c1)
     {
         this.a1=a1;
         this.c1=c1;
+        this.fllist=new ArrayList<>(a1);
     }
     @NonNull
     @Override
@@ -41,11 +41,11 @@ public class recycler_Ater extends RecyclerView.Adapter<recycler_Ater.ViewHolder
         return new ViewHolder(v);
     }
     public void onBindViewHolder(ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-          holder.i1.setImageResource(a1.get(position).img);
-          holder.t1.setText(a1.get(position).group);
-          holder.t2.setText(a1.get(position).message);
+          holder.i1.setImageResource(fllist.get(position).img);
+          holder.t1.setText(fllist.get(position).group);
+          holder.t2.setText(fllist.get(position).message);
 
-        Bitmap bit=vectorToBitmap(c1,a1.get(position).img);
+        Bitmap bit=vectorToBitmap(c1,fllist.get(position).img);
         Palette.from(bit).generate(new Palette.PaletteAsyncListener() {
             @Override
             public void onGenerated(@Nullable Palette palette) {
@@ -70,7 +70,7 @@ public class recycler_Ater extends RecyclerView.Adapter<recycler_Ater.ViewHolder
                                               //c1 iska context pass hoga
                   dlg1.setContentView(R.layout.dialog_background);
                   ImageView we1=dlg1.findViewById(R.id.smoo);
-                  we1.setImageResource(a1.get(position).img);
+                  we1.setImageResource(fllist.get(position).img);
                   LinearLayout llay1= dlg1.findViewById(R.id.lin);
 //                  llay1.setBackgroundColor(Color.RED);
 //                  if(a1.get(position).group.equals("Police Uncle"))
@@ -78,10 +78,10 @@ public class recycler_Ater extends RecyclerView.Adapter<recycler_Ater.ViewHolder
 //                      we1.setBackgroundColor(Color.RED);//Isse khali Image ka Background Color set hoga pr
                   //hume pure dialog box ka set karwana hai to is
 //                  }
-                  Log.d("DEBUG", "Image ID: " + a1.get(position).img);
+                  Log.d("DEBUG", "Image ID: " + fllist.get(position).img);
                   //Palette API Usage
 //                  Bitmap btmap= BitmapFactory.decodeResource(c1.getResources(),a1.get(position).img);
-                  Bitmap btmap = vectorToBitmap(c1, a1.get(position).img);
+                  Bitmap btmap = vectorToBitmap(c1, fllist.get(position).img);
                   if(btmap!=null  && !btmap.isRecycled()) {
                       Palette.from(btmap).generate(new Palette.PaletteAsyncListener() {
                           @Override
@@ -94,8 +94,6 @@ public class recycler_Ater extends RecyclerView.Adapter<recycler_Ater.ViewHolder
                               int lightMuted = palette.getLightMutedColor(def);
                               int darkMuted = palette.getDarkMutedColor(def);
                               llay1.setBackgroundColor(dominant);
-
-
                           }
                       });
                   }
@@ -109,7 +107,7 @@ public class recycler_Ater extends RecyclerView.Adapter<recycler_Ater.ViewHolder
     }
     @Override
     public int getItemCount() {
-        return a1.size();
+        return fllist.size();
     }
   public static class ViewHolder extends RecyclerView.ViewHolder
   {
@@ -122,6 +120,28 @@ public class recycler_Ater extends RecyclerView.Adapter<recycler_Ater.ViewHolder
           t2=itemView.findViewById(R.id.txt2);
       }
   }
+  public void filt(String text)
+  {
+      fllist.clear();
+      if(text.isEmpty())
+      {
+          fllist.addAll(a1);
+      }
+      else
+      {
+         text=text.toLowerCase();
+         for(struct it:a1)
+         {
+             if(it.group.toLowerCase().contains(text))
+             {
+                 fllist.add(it);
+             }
+
+         }
+      }
+   notifyDataSetChanged();
+  }
+
     @SuppressLint("UseCompatLoadingForDrawables")
     public Bitmap vectorToBitmap(Context context, Object drawableId) {
         if (drawableId instanceof Integer) {
@@ -150,8 +170,6 @@ public class recycler_Ater extends RecyclerView.Adapter<recycler_Ater.ViewHolder
 
         return null;
     }
-
-
     }
 
 
