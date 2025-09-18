@@ -71,9 +71,6 @@ public class Contacts_Details extends AppCompatActivity {
         AutoCompleteTextView ws=findViewById(R.id.autoComplete);
         ArrayAdapter<String>adapter=new ArrayAdapter<>(Contacts_Details.this,android.R.layout.simple_list_item_1,new ArrayList<>());
         ws.setAdapter(adapter);
-
-
-
         ws.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
