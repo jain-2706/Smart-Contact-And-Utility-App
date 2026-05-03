@@ -15,10 +15,11 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -35,18 +36,29 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 
 public class Opening_Activity extends AppCompatActivity {
-    private final String notification_id="1";
+    private final String notification_id = "1";
     DrawerLayout dlay;
     NavigationView nview;
-    @SuppressLint("MissingInflatedId")
+    ScrollView dashboardScroll;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_opening);
+
+        // 1. Initialize Views
+        dlay = findViewById(R.id.main_s);
+        nview = findViewById(R.id.nview);
+        dashboardScroll = findViewById(R.id.dashboard_scroll);
+        Toolbar tbar = findViewById(R.id.tool);
+        setSupportActionBar(tbar);
+
+        // 2. Padding Fix
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main_s), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -55,130 +67,118 @@ public class Opening_Activity extends AppCompatActivity {
         channel();
         create_notification();
 
-        Toolbar tbar=(Toolbar)findViewById(R.id.tool);
-//        setSupportActionBar(tbar);
-//        if(getSupportActionBar()!=null)
-//        {
-//
-//            getSupportActionBar().setTitle("App_Services");
-//        }
-        Button bta=findViewById(R.id.logout);
-        bta.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences s1=getSharedPreferences("login",MODE_PRIVATE);
-                SharedPreferences.Editor se=s1.edit();
-                se.putBoolean("flag",false);
-                se.apply();
-                Intent ic=new Intent(Opening_Activity.this,First_Activity.class);
-                startActivity(ic);
-            }
-        });
-        dlay=findViewById(R.id.main_s);
-        nview=findViewById(R.id.nview);
-        ActionBarDrawerToggle tg=new ActionBarDrawerToggle(Opening_Activity.this,dlay,tbar,R.string.Open_Drawer,R.string.Close_Drawer);
+        // 3. Navigation Drawer Setup
+        ActionBarDrawerToggle tg = new ActionBarDrawerToggle(this, dlay, tbar, R.string.Open_Drawer, R.string.Close_Drawer);
         dlay.addDrawerListener(tg);
         tg.syncState();
-        nview.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int id=item.getItemId();
-                if(id==R.id.face)
-                {
-                    loadfragment(new Facebook_Fragment(),0);
-                }
-                else if(id==R.id.google)
-                {
-                    loadfragment(new Google_Fragment(),0);
-                }
-                else if(id==R.id.insta)
-                {
-                    loadfragment(new Instagram_Fragment(),0);
-                }
-                else if(id==R.id.twitter)
-                {
-                    loadfragment(new Twitter_Fragment(),0);
-                }
-                else
-                {
-                    Intent ins=new Intent(Opening_Activity.this,MainActivity2.class);
-                    startActivity(ins);
-                }
-                return true;
-            }
+
+        // 4. Logout Button
+        MaterialButton logoutBtn = findViewById(R.id.logout);
+        logoutBtn.setOnClickListener(v -> {
+            SharedPreferences s1 = getSharedPreferences("login", MODE_PRIVATE);
+            s1.edit().putBoolean("flag", false).apply();
+            startActivity(new Intent(Opening_Activity.this, First_Activity.class));
+            finish();
+        });
+
+        // 5. Drawer Menu Clicks
+        nview.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.face) loadfragment(new Facebook_Fragment(), 0);
+            else if (id == R.id.google) loadfragment(new Google_Fragment(), 0);
+            else if (id == R.id.insta) loadfragment(new Instagram_Fragment(), 0);
+            else if (id == R.id.twitter) loadfragment(new Twitter_Fragment(), 0);
+            else startActivity(new Intent(Opening_Activity.this, MainActivity2.class));
+
+            dlay.closeDrawers();
+            return true;
+        });
+        LinearLayout l1=findViewById(R.id.mapsfrom);
+        LinearLayout l2=findViewById(R.id.contactfrom);
+        LinearLayout l3=findViewById(R.id.camerafrom);
+        LinearLayout l4=findViewById(R.id.profilefrom);
+        l1.setOnClickListener(v->{
+            Intent intent=new Intent(Opening_Activity.this,MapsActivity.class);
+            startActivity(intent);
+        });
+        l2.setOnClickListener(v -> {
+            Intent in=new Intent(Intent.ACTION_DIAL);
+//                     in.setData(Uri.parse("tel:+91999299929"));
+            startActivity(in);
+        });
+        l3.setOnClickListener(v -> {
+            Intent in_cam=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(in_cam,100);
+        });
+        l4.setOnClickListener(v -> {
+            Intent in=new Intent(Intent.ACTION_SEND);
+            in.setType("message/rfc822");
+            in.putExtra(Intent.EXTRA_EMAIL,new String[]{"abc@gmail.com","xyz@gmail.com"});
+            in.putExtra(Intent.EXTRA_SUBJECT,"Internship From Google:  ");
+            in.putExtra(Intent.EXTRA_TEXT,"An Excitng Offer from Google for the students");
+            startActivity(Intent.createChooser(in,"Read the Email"));
         });
 
     }
-    public void channel()
-    {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel n1=new NotificationChannel(notification_id,"Notification Channel",IMPORTANCE_HIGH);
-            NotificationManager nm=(NotificationManager) getSystemService(NotificationManager.class);
-            nm.createNotificationChannel(n1);
 
-        }
+    public void loadfragment(Fragment fragment, int flag) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
 
+        // Hide the dashboard UI when a fragment is loaded
+        if (dashboardScroll != null) dashboardScroll.setVisibility(View.GONE);
 
+        if (flag == 1) ft.add(R.id.frame, fragment);
+        else ft.replace(R.id.frame, fragment);
+
+        ft.addToBackStack(null);
+        ft.commit();
     }
-    @SuppressLint("NotificationPermission")
-    public void create_notification()
-    {
-        Bitmap bit=vector_to_Bitmap(Opening_Activity.this,R.drawable.frame__3_);
-        NotificationCompat.BigPictureStyle n1=new NotificationCompat.BigPictureStyle()
-                .setBigContentTitle("Try to Open the WhatsApp")
-                .setSummaryText("Enhanced its features")
-                .bigPicture(bit);
-        Intent int_ent=new Intent(Opening_Activity.this, MainActivity2.class);
-        int_ent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent p1=PendingIntent.getActivity(Opening_Activity.this,1,int_ent,FLAG_IMMUTABLE);
 
-        NotificationCompat.Builder nb=new NotificationCompat.Builder(Opening_Activity.this,notification_id)
-                .setOngoing(false)
+    @Override
+    public void onBackPressed() {
+        if (dlay.isDrawerOpen(nview)) {
+            dlay.closeDrawers();
+        } else if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            // Show dashboard again when coming back from a fragment
+            if (dashboardScroll != null) dashboardScroll.setVisibility(View.VISIBLE);
+            getSupportFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    // --- Notifications & Bitmaps ---
+    public void channel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel n1 = new NotificationChannel(notification_id, "Notification Channel", IMPORTANCE_HIGH);
+            NotificationManager nm = (NotificationManager) getSystemService(NotificationManager.class);
+            if (nm != null) nm.createNotificationChannel(n1);
+        }
+    }
+
+    @SuppressLint("NotificationPermission")
+    public void create_notification() {
+        Bitmap bit = vector_to_Bitmap(this, R.drawable.frame__3_);
+        NotificationCompat.Builder nb = new NotificationCompat.Builder(this, notification_id)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentText("Open the WhatsApp")
                 .setContentTitle("WhatsApp")
                 .setSmallIcon(R.drawable.frame__3_)
                 .setLargeIcon(bit)
-                .setContentIntent(p1)
-                .setStyle(n1);
-        NotificationManager nm=(NotificationManager) getSystemService(NotificationManager.class);
-        nm.notify(1,nb.build());
-    }
-    public  Bitmap vector_to_Bitmap(Context c1,int image)
-    {
-        Drawable dr= ContextCompat.getDrawable(c1,image);
-        int intrinsic_width= dr.getIntrinsicWidth()>0? dr.getIntrinsicWidth() : 100;
-        int intrinsic_height= dr.getIntrinsicHeight()>0? dr.getIntrinsicHeight() : 100;
-        Bitmap b1=Bitmap.createBitmap(intrinsic_width,intrinsic_height, Bitmap.Config.ARGB_8888);
-        Canvas canvas=new Canvas(b1);
-        dr.setBounds(0,0,intrinsic_width,intrinsic_height);
-        dr.draw(canvas);
-        return b1;
+                .setAutoCancel(true);
+
+        NotificationManager nm = (NotificationManager) getSystemService(NotificationManager.class);
+        if (nm != null) nm.notify(1, nb.build());
     }
 
-    @Override
-    public void onBackPressed() {
-        if(dlay.isDrawerOpen(nview))
-        {
-            dlay.closeDrawers();
-        }
-        Intent il=new Intent(Opening_Activity.this, First_Activity.class);
-        startActivity(il);
+    public Bitmap vector_to_Bitmap(Context context, int drawableId) {
+        Drawable drawable = ContextCompat.getDrawable(context, drawableId);
+        if (drawable == null) return null;
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
     }
-    public void loadfragment(Fragment A, int f)
-    {
-        FragmentManager f1=getSupportFragmentManager();
-        FragmentTransaction ft=f1.beginTransaction();
-        if(f==1)
-        {
-            ft.add(R.id.frame,A);
-        }
-        else
-        {
-            ft.replace(R.id.frame,A);
-        }
-        setSupportActionBar(null);
-        ft.commit();
-    }
-
 }

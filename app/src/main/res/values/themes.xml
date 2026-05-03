@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.My_First_App" parent="Theme.AppCompat.Light.NoActionBar" />
+    <!-- Change Theme.AppCompat to Theme.MaterialComponents -->
+    <style name="Theme.My_First_App" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
+        <!-- You can also define your purple brand colors here -->
+        <item name="colorPrimary">#6750A4</item>
+        <item name="colorPrimaryVariant">#493185</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+
+    </style>
 
 </resources>
-
